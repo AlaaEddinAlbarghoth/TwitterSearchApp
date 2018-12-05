@@ -16,14 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.alaaeddin.twittersearchapp.R;
+import org.alaaeddin.twittersearchapp.viewmodel.ListViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ListFragment extends Fragment {
-    // Assigned all the views in the View to variables using (Butter Knife lib.) BindView method
-    // to shorthand and simplifying the code.
+    // Assigned all the views in the View to variables using (Butter Knife lib.) to shorthand and simplifying the code.
     @BindView(R.id.recycler_view)
     RecyclerView listView;
 
@@ -33,13 +33,12 @@ public class ListFragment extends Fragment {
     @BindView(R.id.loading_view)
     View loadingView;
 
-    // I used (Butter Knife lib.) to bind my view.
-    // I need to assign the result of that to an (unbinder) field and
-    // then I can use that in destroy view to unbind my view.
+    // Assign view to an (unbinder) to unbind it in onDestroy.
     private Unbinder unbinder;
 
     private static final String ARG_QUERY = "koko";
     private String mQuery;
+    private ListViewModel viewModel;
 
     // Default constructor/
     public ListFragment() {
@@ -73,7 +72,48 @@ public class ListFragment extends Fragment {
         return view;
     }
 
+    // Getting a reference to the view model.
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(ListViewModel.class);
+        Toast.makeText(getActivity(), mQuery, Toast.LENGTH_LONG).show();
+        listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+       // listView.setAdapter(new StatusListAdapter(viewModel, this, mQuery));
+        listView.setLayoutManager(new LinearLayoutManager(getContext()));
+        observeViewModel(mQuery);
+    }
+
+    // Listen to all of those live data objects exposed by viewModel to observe live data.
     // Called once the fragment is associated with its activity.
+    private void observeViewModel(String query) {
+        viewModel.getStatusList(query).observe(this, statuses -> {
+            if (statuses != null) {
+                listView.setVisibility(View.VISIBLE);
+            }
+        });
+
+        viewModel.getStatusesLoadErrorObservable().observe(this, isError -> {
+            //noinspection ConstantConditions
+            if (isError) {
+                errorTextView.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                errorTextView.setText(R.string.api_error_statuses);
+            } else {
+                errorTextView.setVisibility(View.GONE);
+                errorTextView.setText(null);
+            }
+        });
+
+        viewModel.getLoadingObservable().observe(this, isLoading -> {
+            //noinspection ConstantConditions
+            loadingView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            if (isLoading) {
+                listView.setVisibility(View.GONE);
+                errorTextView.setVisibility(View.GONE);
+            }
+        });
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -85,8 +125,7 @@ public class ListFragment extends Fragment {
         super.onDetach();
     }
 
-    // This will prevent our views from leaking when the fragment view is destroyed but
-    // the fragment itself is still hanging around.
+    // Prevent view from leaking when the fragment view is destroyed.
     @Override
     public void onDestroy() {
         super.onDestroy();

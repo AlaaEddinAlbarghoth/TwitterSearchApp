@@ -26,5 +26,5 @@ public interface TwitterService {
             "oauth_signature:ZX%2FKn%2BOkCeFofZclWkh9Ug9vopw%3D"
     })
     @GET("/tweets.json")
-    Call<TwitterResponse> getTweets(@Query("q") String query);
+    Call<TwitterResponse> getTwitterResponse(@Query("q") String query);
 }

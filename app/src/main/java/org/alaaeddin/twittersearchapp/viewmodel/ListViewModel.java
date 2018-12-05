@@ -40,4 +40,9 @@ public class ListViewModel extends ViewModel {
     public LiveData<Boolean> getLoadingObservable() {
         return  loading = twitterRepository.getLoading();
     }
+
+    @Override
+    protected void onCleared() {
+        twitterRepository.clearData();
+    }
 }

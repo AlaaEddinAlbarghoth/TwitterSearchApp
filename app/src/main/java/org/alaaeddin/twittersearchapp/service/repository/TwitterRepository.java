@@ -28,7 +28,7 @@ public class TwitterRepository {
     private final MutableLiveData<Boolean> statusesLoadError = new MutableLiveData<>(); //  It will be used if there is an error loading the tweets.
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(); // It will tell our view whether the data is loading or not.
 
-    private TwitterRepository(){
+    private TwitterRepository() {
         //TODO this gitHubService instance will be injected using Dagger in part #2 ...
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TwitterService.BASE_URL)
@@ -47,34 +47,29 @@ public class TwitterRepository {
     }
 
     // Expose it as simply live data the view won't be able to call setValue found MutableLiveData.
-    public LiveData<List<Status>> getStatuses(String query){
+    public LiveData<List<Status>> getStatuses(String query) {
         fetchStatuses(query);
         return statuses;
     }
 
-    public LiveData<Boolean> getError(){
+    public LiveData<Boolean> getError() {
         return statusesLoadError;
     }
 
-    public LiveData<Boolean> getLoading(){
+    public LiveData<Boolean> getLoading() {
         return loading;
     }
 
     // Retrieving data from server.
     private void fetchStatuses(String query) {
         loading.setValue(true);
-        twitterResponseCall = twitterService.getTweets(query);
-        Log.i(getClass().getSimpleName(),"fetchPosts !");
+        twitterResponseCall = twitterService.getTwitterResponse(query);
+        Log.i(getClass().getSimpleName(), "fetchPosts !");
         twitterResponseCall.enqueue(new Callback<TwitterResponse>() {
             @Override
             public void onResponse(Call<TwitterResponse> call, Response<TwitterResponse> response) {
                 statusesLoadError.setValue(false);
-                try {
-                    statuses.setValue(response.body().getStatuses());
-                }
-                catch (Exception e){
-                   Log.e(getClass().getSimpleName(),e.getMessage());
-                }
+                statuses.setValue(response.body().getStatuses());
                 loading.setValue(false);
                 twitterResponseCall = null;
             }
@@ -89,7 +84,7 @@ public class TwitterRepository {
         });
     }
 
-    // Clear Data to avoid leaking in memory.
+    // Clear Data to avoid leaking in memory, fragment is no longer in the back stack are being displayed.
     public void clearData() {
         if (twitterResponseCall != null) {
             twitterResponseCall.cancel();

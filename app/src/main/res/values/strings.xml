@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TwitterSearchApp</string>
+    <string name="api_error_statuses">Error Loading statuses</string>
 </resources>
