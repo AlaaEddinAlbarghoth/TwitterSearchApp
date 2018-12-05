@@ -52,7 +52,6 @@ dependencies {
 
     // Butter Knife (Field and method binding for Android views)
     implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVersion}"
-    implementation 'com.android.support:support-v4:27.1.1'
     annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknifeVersion}"
 
     // Add Dagger dependencies (A fast dependency injector for Android and Java)
