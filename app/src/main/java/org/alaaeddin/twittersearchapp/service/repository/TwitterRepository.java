@@ -3,8 +3,12 @@ package org.alaaeddin.twittersearchapp.service.repository;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
+import android.widget.Toast;
 
+import org.alaaeddin.twittersearchapp.service.model.Status;
 import org.alaaeddin.twittersearchapp.service.model.TwitterResponse;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +24,7 @@ public class TwitterRepository {
     private static TwitterRepository twitterRepository;
     private Call<TwitterResponse> twitterResponseCall;
 
-    private final MutableLiveData<TwitterResponse> twitterResponse = new MutableLiveData<>();
+    private final MutableLiveData<List<Status>> statuses = new MutableLiveData<>();
     private final MutableLiveData<Boolean> statusesLoadError = new MutableLiveData<>(); //  It will be used if there is an error loading the tweets.
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(); // It will tell our view whether the data is loading or not.
 
@@ -43,9 +47,9 @@ public class TwitterRepository {
     }
 
     // Expose it as simply live data the view won't be able to call setValue found MutableLiveData.
-    public LiveData<TwitterResponse> getStatuses(String query){
+    public LiveData<List<Status>> getStatuses(String query){
         fetchStatuses(query);
-        return twitterResponse;
+        return statuses;
     }
 
     public LiveData<Boolean> getError(){
@@ -65,7 +69,12 @@ public class TwitterRepository {
             @Override
             public void onResponse(Call<TwitterResponse> call, Response<TwitterResponse> response) {
                 statusesLoadError.setValue(false);
-                twitterResponse.setValue(response.body());
+                try {
+                    statuses.setValue(response.body().getStatuses());
+                }
+                catch (Exception e){
+                   Log.e(getClass().getSimpleName(),e.getMessage());
+                }
                 loading.setValue(false);
                 twitterResponseCall = null;
             }
