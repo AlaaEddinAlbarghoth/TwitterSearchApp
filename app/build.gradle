@@ -1,0 +1,67 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "org.alaaeddin.twittersearchapp"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //  # Adding Java 8 compatibility to my project is for using some features like lambdas in the future
+    //  # I use the compile options block inside the Android block and set source and target
+    //    compatibility to Java 8 since we are using the new Android gradle 3.0 plug in.
+    //    This allows us to use these newer Java features in our app
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // This dependency is important to use ext in gradle.
+    implementation "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
+
+    // Android support Libraries
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintLayout}"
+
+    // ViewModel and LiveData (Architecture Components)
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle_version}"
+
+    // Retrofit (Retrofit turns your HTTP API into a Java interface)
+    implementation "com.squareup.retrofit2:retrofit:${rootProject.ext.retrofitVersion}"
+    // A Converter which uses Moshi for serialization to and from JSON.
+    implementation "com.squareup.retrofit2:converter-moshi:${rootProject.ext.retrofitVersion}"
+
+    // Moshi is a JSON serialization/deserialization library, similar to Gson or Jackson.
+    // Moshi is lighter and less prone to make problems during development than the rest (Gson or Jackson).
+    implementation "com.squareup.moshi:moshi:${rootProject.ext.moshiVersion}"
+
+    // Butter Knife (Field and method binding for Android views)
+    implementation "com.jakewharton:butterknife:${rootProject.ext.butterknifeVersion}"
+    implementation 'com.android.support:support-v4:27.1.1'
+    annotationProcessor "com.jakewharton:butterknife-compiler:${rootProject.ext.butterknifeVersion}"
+
+    // Add Dagger dependencies (A fast dependency injector for Android and Java)
+    implementation "com.google.dagger:dagger:${rootProject.ext.dagger2Version}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.dagger2Version}"
+
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

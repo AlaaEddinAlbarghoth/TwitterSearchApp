@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// This block encapsulates custom properties and makes them available to all
+// modules in the project, having all of out versions in a place that"s accessible from all.
+ext {
+    compileSdkVersion = 27
+    minSdkVersion = 15
+    targetSdkVersion = 27
+    versionCode = 1
+    versionName = "1.0"
+
+    // Defining the version in variables
+    supportLibVersion = "27.1.1"
+    lifecycle_version = "1.1.1"
+    retrofitVersion = "2.5.0"
+    constraintLayout = "1.1.3"
+    butterknifeVersion = "8.8.1"
+    moshiVersion = "1.8.0"
+    dagger2Version = "2.16"
+    materialsearchviewVersion = "1.2.3"
+}
