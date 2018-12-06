@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.alaaeddin.twittersearchapp.R;
+import org.alaaeddin.twittersearchapp.view.adapter.StatusListAdapter;
 import org.alaaeddin.twittersearchapp.viewmodel.ListViewModel;
 
 import butterknife.BindView;
@@ -75,10 +76,10 @@ public class ListFragment extends Fragment {
     // Getting a reference to the view model.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(ListViewModel.class);
-        Toast.makeText(getActivity(), mQuery, Toast.LENGTH_LONG).show();
-        listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-       // listView.setAdapter(new StatusListAdapter(viewModel, this, mQuery));
+        viewModel = ViewModelProviders.of(this).get(ListViewModel.class); // return an instance of ViewModel
+
+        listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL)); // get some dividers between our items
+        listView.setAdapter(new StatusListAdapter(viewModel, this, mQuery, getContext()));
         listView.setLayoutManager(new LinearLayoutManager(getContext()));
         observeViewModel(mQuery);
     }

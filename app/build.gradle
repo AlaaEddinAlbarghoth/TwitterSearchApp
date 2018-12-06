@@ -38,6 +38,14 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintLayout}"
 
+    // CardView lets you show information inside cards that have a consistent look
+    implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${rootProject.ext.supportLibVersion}"
+
+    // Glide is a fast and efficient open source media management and image loading framework
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glideVersion}"
+
     // ViewModel and LiveData (Architecture Components)
     implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle_version}"
 

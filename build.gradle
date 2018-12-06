@@ -44,4 +44,5 @@ ext {
     moshiVersion = "1.8.0"
     dagger2Version = "2.16"
     materialsearchviewVersion = "1.2.3"
+    glideVersion = "4.8.0"
 }
