@@ -21,28 +21,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class TwitterRepository {
 
     private static TwitterService twitterService;
-    private static TwitterRepository twitterRepository;
     private Call<TwitterResponse> twitterResponseCall;
 
     private final MutableLiveData<List<Status>> statuses = new MutableLiveData<>();
     private final MutableLiveData<Boolean> statusesLoadError = new MutableLiveData<>(); //  It will be used if there is an error loading the tweets.
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(); // It will tell our view whether the data is loading or not.
 
-    private TwitterRepository() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(TwitterService.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
-
+    public TwitterRepository(Retrofit retrofit) {
         twitterService = retrofit.create(TwitterService.class);
-    }
-
-    public synchronized static TwitterRepository getInstance() {
-        //TODO No need to implement this singleton in Part #2 since Dagger will handle it ...
-        if (twitterRepository == null) {
-            twitterRepository = new TwitterRepository();
-        }
-        return twitterRepository;
     }
 
     // Expose it as simply live data the view won't be able to call setValue found MutableLiveData.

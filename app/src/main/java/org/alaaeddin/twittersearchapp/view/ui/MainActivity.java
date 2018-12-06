@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.screen_container, ListFragment.newInstance(query))
-                            .commit();
-                return true;
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.screen_container, ListFragment.newInstance(query))
+                        .commit();
+                return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
                 return false;
             }
         });

@@ -16,14 +16,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.alaaeddin.twittersearchapp.R;
+import org.alaaeddin.twittersearchapp.utils.TSApplication;
 import org.alaaeddin.twittersearchapp.view.adapter.StatusListAdapter;
 import org.alaaeddin.twittersearchapp.viewmodel.ListViewModel;
+import org.alaaeddin.twittersearchapp.viewmodel.ViewModelFactory;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ListFragment extends Fragment {
+
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     // Assigned all the views in the View to variables using (Butter Knife lib.) to shorthand and simplifying the code.
     @BindView(R.id.recycler_view)
     RecyclerView listView;
@@ -76,7 +84,7 @@ public class ListFragment extends Fragment {
     // Getting a reference to the view model.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(ListViewModel.class); // return an instance of ViewModel
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ListViewModel.class); // return an instance of ViewModel
 
         listView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL)); // get some dividers between our items
         listView.setAdapter(new StatusListAdapter(viewModel, this, mQuery, getContext()));
@@ -118,6 +126,7 @@ public class ListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        TSApplication.getApplicationComponent(context).inject(this);
     }
 
     // Called immediately prior to the fragment no longer being associated with its activity.

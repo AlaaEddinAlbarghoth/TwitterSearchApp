@@ -1,5 +1,6 @@
 package org.alaaeddin.twittersearchapp.di.module;
 
+import org.alaaeddin.twittersearchapp.service.repository.TwitterRepository;
 import org.alaaeddin.twittersearchapp.service.repository.TwitterService;
 
 import javax.inject.Singleton;
@@ -19,5 +20,11 @@ public abstract class NetworkModule {
                 .baseUrl(TwitterService.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    static TwitterRepository provideTitterRepository(Retrofit retrofit){
+        return new TwitterRepository(retrofit);
     }
 }

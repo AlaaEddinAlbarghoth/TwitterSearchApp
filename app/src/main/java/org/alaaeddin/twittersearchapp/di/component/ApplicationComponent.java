@@ -2,6 +2,7 @@ package org.alaaeddin.twittersearchapp.di.component;
 
 import org.alaaeddin.twittersearchapp.di.module.NetworkModule;
 import org.alaaeddin.twittersearchapp.di.module.ViewModelModule;
+import org.alaaeddin.twittersearchapp.view.ui.ListFragment;
 
 import javax.inject.Singleton;
 
@@ -13,4 +14,6 @@ import dagger.Component;
         ViewModelModule.class,
 }) // Tells dagger this interface is a component
 public interface ApplicationComponent {
+
+    void inject(ListFragment listFragment);
 }
