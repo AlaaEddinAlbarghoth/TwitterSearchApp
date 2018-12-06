@@ -29,7 +29,6 @@ public class TwitterRepository {
     private final MutableLiveData<Boolean> loading = new MutableLiveData<>(); // It will tell our view whether the data is loading or not.
 
     private TwitterRepository() {
-        //TODO this gitHubService instance will be injected using Dagger in part #2 ...
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(TwitterService.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
