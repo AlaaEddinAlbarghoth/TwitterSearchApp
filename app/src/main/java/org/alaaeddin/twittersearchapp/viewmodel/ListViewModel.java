@@ -9,6 +9,8 @@ import org.alaaeddin.twittersearchapp.service.repository.TwitterRepository;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 // ViewModel class calls the Repository API, In order to consume getTweets()
 public class ListViewModel extends ViewModel {
     private LiveData<TwitterResponse> responseLiveData;
@@ -17,28 +19,32 @@ public class ListViewModel extends ViewModel {
     private LiveData<Boolean> loading;
     TwitterRepository twitterRepository = TwitterRepository.getInstance();
 
-    public ListViewModel() {
+    @Inject
+    public ListViewModel(String query) {
+        statusListObservable = twitterRepository.getStatuses(query);
+        statusesLoadError = twitterRepository.getError();
+        loading = twitterRepository.getLoading();
     }
 
     /**
      * Expose the LiveData 'Status query' so the UI can observe it.
      */
     public LiveData<List<Status>> getStatusList(String query) {
-        return statusListObservable = twitterRepository.getStatuses(query);
+        return statusListObservable;
     }
 
     /**
      * Expose the LiveData 'Status List Load Error' so the UI can observe it.
      */
     public LiveData<Boolean> getStatusesLoadErrorObservable() {
-        return statusesLoadError = twitterRepository.getError();
+        return statusesLoadError;
     }
 
     /**
      * Expose the LiveData 'Status List Loading' so the UI can observe it.
      */
     public LiveData<Boolean> getLoadingObservable() {
-        return  loading = twitterRepository.getLoading();
+        return  loading;
     }
 
     @Override
