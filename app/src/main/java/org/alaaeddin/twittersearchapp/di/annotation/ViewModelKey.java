@@ -9,10 +9,11 @@ import java.lang.annotation.Target;
 
 import dagger.MapKey;
 
-@MapKey
+@MapKey // So we have to add this annotation.
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ViewModelKey {
 
+    // This annotation will have a value of class that extends a view model.
     Class<? extends ViewModel> value();
 }

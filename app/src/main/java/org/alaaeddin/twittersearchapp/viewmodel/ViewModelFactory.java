@@ -15,11 +15,12 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private Map<Class<? extends ViewModel>, Provider<ViewModel>> viewModels;
 
-    @Inject
+    @Inject // inject the map
     ViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> viewModels) {
         this.viewModels = viewModels;
     }
 
+    // Passing modelClass as a key
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

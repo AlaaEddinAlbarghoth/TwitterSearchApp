@@ -22,6 +22,8 @@ public abstract class NetworkModule {
                 .build();
     }
 
+    // Provider for TwitterRepository
+    // Dagger will provide retrofit a retrofit instance
     @Provides
     @Singleton
     static TwitterRepository provideTitterRepository(Retrofit retrofit){

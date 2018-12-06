@@ -29,6 +29,7 @@ import butterknife.Unbinder;
 
 public class ListFragment extends Fragment {
 
+    //  @Inject required for Dagger to be able to create an instance of ViewModelFactory.
     @Inject
     ViewModelFactory viewModelFactory;
 

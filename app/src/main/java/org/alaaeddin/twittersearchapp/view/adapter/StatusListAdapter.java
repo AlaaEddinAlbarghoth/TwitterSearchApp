@@ -51,6 +51,7 @@ public class StatusListAdapter  extends RecyclerView.Adapter<StatusListAdapter.S
         return new StatusViewHolder(view);
     }
 
+    // bind the data, and load the images
     @Override
     public void onBindViewHolder(@NonNull StatusViewHolder holder, int position) {
         Glide.with(context)
@@ -63,16 +64,19 @@ public class StatusListAdapter  extends RecyclerView.Adapter<StatusListAdapter.S
         holder.bind(data.get(position));
     }
 
+    //
     @Override
     public int getItemCount() {
         return data.size();
     }
 
+    //
     @Override
     public long getItemId(int position) {
         return data.get(position).getId();
     }
 
+    // ViewHolder Class
     static final class StatusViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_name)
